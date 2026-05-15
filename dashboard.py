@@ -1,8 +1,8 @@
+import os
 import numpy as np
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from sqlalchemy import create_engine
 
 # ── Configuración ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -10,11 +10,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-DB_CONFIG = {
-    "host": "localhost", "puerto": 5432,
-    "base": "analitica_comercial", "usuario": "postgres", "clave": "admin",
-}
 
 MESES = {
     1:"Enero", 2:"Febrero", 3:"Marzo", 4:"Abril", 5:"Mayo", 6:"Junio",
@@ -27,12 +22,8 @@ COLORES = px.colors.qualitative.Safe
 # ── Helpers ────────────────────────────────────────────────────────────────────
 @st.cache_data
 def cargar_datos():
-    url = (
-        f"postgresql+psycopg2://{DB_CONFIG['usuario']}:{DB_CONFIG['clave']}"
-        f"@{DB_CONFIG['host']}:{DB_CONFIG['puerto']}/{DB_CONFIG['base']}"
-    )
-    df = pd.read_sql("SELECT * FROM hechos_ventas", create_engine(url))
-    df["fecha"]      = pd.to_datetime(df["fecha"])
+    ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output", "hechos_ventas.csv")
+    df = pd.read_csv(ruta, parse_dates=["fecha"])
     df["nombre_mes"] = df["mes"].map(MESES)
     return df
 
