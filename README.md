@@ -31,13 +31,12 @@ Se abre automáticamente en `http://localhost:8501`.
 
 ```
 ├── pipeline_datos.py     # ETL: ingesta, limpieza, transformación y carga
-├── forecasting.py        # Proyección de demanda semanal
 ├── dashboard.py          # Tablero interactivo (Streamlit + Plotly)
 ├── requirements.txt
-├── clientes.csv
-├── ventas.csv
-├── ciudades.csv
-├── sucursales.csv
+├── clientes.csv          #fuente
+├── ventas.csv            #fuente
+├── ciudades.csv          #fuente
+├── sucursales.csv        #fuente
 └── output/               # Generado por pipeline_datos.py
     ├── hechos_ventas.csv
     ├── dim_clientes.csv
